@@ -1,0 +1,85 @@
+﻿@page
+@model kayit.Pages.ProfileModel
+@{
+}
+
+@foreach (var proje in Model.Projects)
+{
+<div class="container">
+    <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="@proje.url" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>@proje.isim</h4>
+                      <p class="text-secondary mb-1">Öğrenci</p>
+                      <br />
+                      <form asp-page="/Sor">
+                      <button class="btn-sm btn-outline-primary" asp-page="/Sor">Soru Sor</button>
+                      </form>
+					  <br />
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">İsim</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      @proje.isim
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Eposta</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      @proje.eposta
+
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Telefon</h6>
+                    </div>
+                    <div  class="col-sm-9 text-secondary">
+                        @proje.tel
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <form asp-page="/ProfileSettings" method="SettingsMethod"><button asp-page="/Settings" class="btn btn-outline-primary">Düzenle</button></form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row gutters-sm">
+                
+                <div class="col-sm-15 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h6 class="d-flex align-items-center mb-3">Hakkımda</h6>
+                      <p>@proje.bio</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+    }

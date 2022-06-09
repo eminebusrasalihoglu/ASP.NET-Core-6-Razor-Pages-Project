@@ -1,0 +1,33 @@
+﻿@page
+@model kayit.Pages.LoginModel
+@{
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <h1 class="mb-3"> Giriş
+            </h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Model.Email">Email Adresi</label>
+                    <input type="text" asp-for="Model.Email" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="Model.Email"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Model.Password" class="form-label" >Şifre</label>
+                    <input asp-for="Model.Password" type="password" asp-for="Model.Password" class="form-control"/>
+                    <span asp-validation-for="Model.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-check">
+                    <input asp-for="Model.RememberMe" type="checkbox" class="form-check-input" />
+                    <label asp-for="Model.RememberMe" class="form-check-label">Beni Hatırla</label>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Giriş</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

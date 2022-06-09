@@ -1,0 +1,24 @@
+[
+  {
+    "id": 2,
+    "user": "bb",
+    "url": "test",
+    "isim": "dsfsd",
+    "kullaniciAdi": "dsfsd",
+    "dogumTarihi": "aa",
+    "tel": "ssdfsf",
+    "eposta": "dsfsd",
+    "bio": "dsdfsd"
+  },
+  {
+    "id": 3,
+    "user": "b661053c-2371-4aff-bb0a-d92de05bb62a",
+    "url": null,
+    "isim": "Nelle Maxwell",
+    "kullaniciAdi": "busra",
+    "dogumTarihi": "May 3, 1995",
+    "tel": "\u002B90 5454509911",
+    "eposta": "nmaxwell@mail.com",
+    "bio": "merhaba"
+  }
+]

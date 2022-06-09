@@ -1,0 +1,349 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width , initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet"  href="~/css/style.css">
+  <script src="https://kit.fontawesome.com/c185839497.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous"
+  />
+
+
+  <title>StudyWithMe</title>
+</head>
+<body>
+
+ @foreach (var x in Model.Info){
+    <div class="action">
+  <div class="profile" onclick="menuToggle();">
+    <img src="@x.url" />
+  </div>
+  <div class="menu">
+    <h3>Burcu Altug<br /></h3>
+     <ul>
+      <li>
+        <img src="/css/2.png" /><a asp-page="/Profile" >Profil</a>
+      </li>
+      <li>
+        <img src="/css/4.png" /><a asp-page="/Sorduklarim">Sorduklarım</a>
+      </li>
+      <li>
+        <img src="/css/1.png" /><a asp-page="/Cevapladiklarim">Cevapladıklarım</a>
+      </li>
+      <li><img src="/css/2.png" /><a asp-page="/Settings">Ayarlar</a></li>
+      <li>
+        <img src="/css/3.png" /><a asp-page="/Logout">Çıkış</a>
+      </li>
+    </ul>
+  </div>
+</div>}
+<script>
+  function menuToggle() {
+    const toggleMenu = document.querySelector(".menu");
+    toggleMenu.classList.toggle("active");
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+@foreach (var x in Model.Info){
+
+<div style="float:left;width:20%;">
+              <div class="card h-50">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+					 
+                    <img src="@x.url" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>@x.isim</h4>
+                      <p class="text-secondary mb-1">Öğrenci</p>
+                      <br />
+					  <form asp-page="/Sor">
+                      <button class="btn-sm btn-outline-primary" asp-page="/Sor">Soru Sor</button>
+                      </form>
+					  <br />
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+			  </div>
+			  }
+
+<div style="float:right;width:80%;">
+	<br />
+ <div class="widget-post" aria-labelledby="post-header-title">
+  <div class="widget-post__header">
+    <h2 class="widget-post__title" id="post-header-title">
+       <i class="fa fa-pencil" aria-hidden="true"></i>StudyWithMe</h2>
+  </div>
+  @foreach (var x in Model.Info){  
+   @foreach (var proje in Model.Projects)
+{
+<div class="f-card">
+  <div class="header">
+    <div class="options"><i class="fa fa-chevron-down"></i></div>
+    <img class="co-logo" src="@x.url" />
+    <div class="co-name"><a href="#">@x.isim</a></div>
+    <div class="time"><a href="#">2hrs</a> · <i class="fa fa-globe"></i></div>
+  </div>
+  <div class="content">
+    <p>@proje.description</p>
+  </div>
+
+  <div class="reference">
+    <img class="reference-thumb" src="@proje.url" />
+  
+  </div>
+  <div class="social">
+    <div class="social-content"></div>
+    <div class="social-buttons">
+      <span><i class="fa fa-thumbs-up"></i>Beğen</span>
+	  <span><i class="fa-solid fa-trash"></i>Sil</span>
+      <span><i class="fa fa-comment" href="/yorum" ></i>Yorumlar</span>
+	  
+      </div>
+  </div>
+        
+	<div style="width: 100%">
+		<div style="display:flex;margin-bottom:10px;">
+			
+		</div>
+		<div>
+			<textarea rows="2" cols="100" id="comment" class="comment-box" placeholder="Add a comment..."></textarea>
+			<div>
+				<button id="add-comment" class="add-btn btn-sm btn-outline-primary">Comment</button>
+			</div>
+			
+		</div>
+		<ul id="commentsList">
+			
+		</ul>
+	</div>
+
+</div>
+
+}}
+
+	
+</div>
+
+
+
+<script>
+    let commentArr = new Array();
+
+
+(()=> { 
+	let commentsString = localStorage.getItem("commentArr");
+	if(commentsString !== null) {
+		commentArr = JSON.parse(commentsString);
+		for(let i=0; i<commentArr.length; i++) {
+			commentArr[i].lastUpdated = new Date(commentArr[i].lastUpdated); 
+			commentArr[i].upvotes = parseInt(commentArr[i].upvotes);	
+			commentArr[i].downvotes = parseInt(commentArr[i].downvotes); 
+			commentArr[i].childrenIds = JSON.parse(commentArr[i].childrenIds); 
+		}
+	}
+})();
+
+document.addEventListener('DOMContentLoaded', (params)=> {
+	if(commentArr.length)
+		renderComments();
+	const addButton = document.getElementById("add-comment");	
+	addButton.addEventListener("click", ()=> {
+		
+		let content = document.getElementById("comment").value;
+		addComment(content, null);
+	}, false);
+
+	const commentsList = document.getElementById("commentsList");
+	commentsList.addEventListener("click", (event)=> {
+		if(event.target.nodeName === 'A' || event.target.nodeName === 'BUTTON'){
+			let parts = event.target.id.split("-");
+			let type = parts[0];
+			let id = parts[parts.length-1];
+			let abc = event.target.id.split("reply-")[1]; 
+			if(type == 'reply') {
+				let inputElem = `
+					<li id="input-${abc}">
+					<div class="comment-input-row">
+						
+					</div>
+					<div>
+						<textarea rows="5" id="content-${abc}" class="comment-box" placeholder="Your reply...."></textarea>
+						<div>
+							<button id="addreply-${abc}" class="add-btn">Reply</button>
+						</div>
+					</div>
+					</li>
+					`;
+	
+				let childListElemId = `childlist-${event.target.id.split("reply-")[1]}`;
+				let childListElem = document.getElementById(childListElemId);
+				
+				if(childListElem == null) {
+					childListElem = `<ul id="childlist-${event.target.id.split("reply-")[1]}"> ${inputElem} </ul>`;
+					document.getElementById(`comment-${abc}`).innerHTML += childListElem;								
+				} else {
+					childListElem.innerHTML = inputElem + childListElem.innerHTML;
+				}
+			} else if(type == 'addreply') {
+				let content = document.getElementById(`content-${abc}`).value;
+				
+				addComment(content, id);
+			} else if(type == 'upvotes' || type == 'downvotes') {
+				commentArr[id][type]++;
+				renderComments();
+				storeComments();
+			}
+		}
+	}, false);
+},false);
+
+
+let storeComments = () =>{ 
+
+	let val = "[";
+	for(let i in commentArr) {
+		val += Comment.toJSONString(commentArr[i]);
+		(i != commentArr.length - 1) ? val += "," : val += "";
+	}
+	val += "]";
+	localStorage.setItem('commentArr', val);
+}
+
+let renderComment = (comment) => {
+	let id = comment.id;
+	let listElem = `
+			<div class="hr"><hr/></div>
+			<li id="comment-${id}" style="max-width:600px;">
+		 	<div class="comment-header">
+				<div  class="comment-handle">
+					${comment.handle}
+				</div>
+				<div style="color:rgba(0,0,0,0.3);margin-top:20px;">
+					posted ${timeAgo(comment.lastUpdated)}
+				</div>
+			</div> 
+			<div>
+			 ${comment.content}
+			</div>
+			<div>
+				${comment.upvotes} <a href="#" role="button" id="upvotes-${id}">Upvotes</a>
+				${comment.downvotes} <a href="#" role="button" id="downvotes-${id}">Downvote</a>
+				<a href="#" role="button" id="reply-${id}">Reply</a>
+			</div>`;
+	if(comment.childrenIds.length != 0) {
+		listElem += `<ul id="childlist-${id}">`;
+		comment.childrenIds.forEach(commentId=> {
+			listElem += renderComment(commentArr[commentId]);
+		});
+		listElem += "</ul>";
+	}		
+	listElem += "</li>";
+	return listElem;
+}
+
+
+let renderComments = ()=> {
+	let rootComments = [];
+	commentArr.forEach(comment=> {
+		if(comment.parentId === null || comment.parentId == "null") {
+			rootComments.push(comment);
+		}
+	});
+	let commentList = '';
+	rootComments.forEach(comment=> {
+		commentList += renderComment(comment);
+	});
+	document.getElementById("commentsList").innerHTML = commentList;
+}
+
+
+let addComment = (content, parent) => { 
+	let comment = new Comment(commentArr.length, content,0,0, parent);
+	commentArr.push(comment);
+	if(parent != null) {
+		commentArr[parent].childrenIds.push(commentArr.length-1);
+	} 
+	storeComments();
+	renderComments();
+}
+
+class Comment {
+	constructor(id, content, upvotes, downvotes, parentId) {
+		this.id = id;
+		
+		this.content = content;
+		this.lastUpdated = new Date();
+		this.upvotes = upvotes;
+		this.downvotes = downvotes;
+		this.childrenIds = [];
+		this.parentId = parentId;
+	}
+	static toJSONString(comment) { 
+		return `{
+			"id" : "${comment.id}",
+			"content" : "${comment.content}",
+			"upvotes" : "${comment.upvotes}",
+			"downvotes" : "${comment.downvotes}",
+			"lastUpdated": "${comment.lastUpdated}",
+			"parentId": "${comment.parentId}",
+			"childrenIds": "${JSON.stringify(comment.childrenIds)}"
+		}`;
+  	}
+}
+
+let timeAgo = (date)=>{
+	let currentDate = new Date();
+	let yearDiff = currentDate.getFullYear() - date.getFullYear();
+
+	if(yearDiff>0)
+		return `${yearDiff} year${yearDiff==1? "":"s"} ago`;
+	
+	let monthDiff = currentDate.getMonth() - date.getMonth();
+	if(monthDiff>0)
+		return `${monthDiff} month${monthDiff == 1 ? "" : "s"} ago`;
+	
+	let dateDiff = currentDate.getDate() - date.getDate();
+	if (dateDiff > 0)
+		return `${dateDiff} day${dateDiff == 1 ? "" : "s"} ago`;
+	
+	let hourDiff = currentDate.getHours() - date.getHours();
+	if (hourDiff > 0)
+		return `${hourDiff} hour${hourDiff == 1 ? "" : "s"} ago`;
+
+	let minuteDiff = currentDate.getMinutes() - date.getMinutes();
+	if (minuteDiff > 0)
+		return `${minuteDiff} minute${minuteDiff == 1 ? "" : "s"} ago`;
+	return `a few seconds ago`;
+    localStorage.clear()
+}
+</script>
+</body>
+</html>
+
+
+

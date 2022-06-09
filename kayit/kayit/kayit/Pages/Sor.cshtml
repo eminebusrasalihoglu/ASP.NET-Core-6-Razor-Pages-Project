@@ -1,0 +1,151 @@
+﻿@page
+@model SorModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width , initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet"  href="~/css/style.css">
+  <script src="https://kit.fontawesome.com/c185839497.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous"
+  />
+
+
+
+  <title>StudyWithMe</title>
+</head>
+<body>
+
+
+    <div class="action">
+  <div class="profile" onclick="menuToggle();">
+    <img src="https://img.freepik.com/free-vector/smiling-girl-avatar_102172-32.jpg" />
+  </div>
+  <div class="menu">
+    <h3>Burcu Altug<br /></h3>
+     <ul>
+      <li>
+        <img src="/css/2.png" /><a asp-page="/Profile" >Profil</a>
+      </li>
+      <li>
+        <img src="/css/4.png" /><a asp-page="/Sorduklarim">Sorduklarım</a>
+      </li>
+      <li>
+        <img src="/css/1.png" /><a asp-page="/Cevapladiklarim">Cevapladıklarım</a>
+      </li>
+      <li><img src="/css/2.png" /><a asp-page="/Settings">Ayarlar</a></li>
+      <li>
+        <img src="/css/3.png" /><a asp-page="/Logout">Çıkış</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<script>
+  function menuToggle() {
+    const toggleMenu = document.querySelector(".menu");
+    toggleMenu.classList.toggle("active");
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="float:left;width:20%;">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>John Doe</h4>
+                      <p class="text-secondary mb-1">Öğrenci</p>
+                      <br />
+                      <form asp-page="/Sor">
+                      <button class="btn-sm btn-outline-primary" asp-page="/Sor">Soru Sor</button>
+                      </form>
+					  <br />
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+			  </div>
+
+<div style="float:right;width:80%;">
+	<form asp-page-handler="Form" method="post">
+		
+    <div class="widget-post" aria-labelledby="post-header-title">
+  <div class="widget-post__header">
+    <h2 class="widget-post__title" id="post-header-title">
+       <i class="fa fa-pencil" aria-hidden="true"></i>StudyWithMe</h2>
+  </div>
+    <div class="widget-post__content">
+      <label for="post-content" class="sr-only">Sor</label>
+      <textarea  id="post-content" asp-for="proje.description" class="widget-post__textarea scroller form-control" placeholder="Sormak İstediğiniz Soru?"></textarea>
+    </div>     
+    <div class="widget-post__options is--hidden" id="stock-options">
+    </div>
+    <div class="widget-post__actions post--actions">
+	  <div class="col-12">
+            <label class="form-label">Baglanti</label>
+            <input value="@Model.FilePath" class="form-control" asp-for="proje.url">
+         </div>
+		 <div class="col-12">
+            <label class="form-label">User</label>
+            <input value="@Model.Func()" class="form-control" asp-for="proje.user">
+         </div>
+      <div class="post-actions__widget">
+		<div class="col-12">
+            <button type="submit" class="btn btn-primary post-actions__publish">Ekle/Guncelle</button>
+        </div>
+      </div>
+    </div>
+ 
+   </form>
+   
+	<div class="widget-post__actions post--actions">
+      <div class="post-actions__attachments">
+        <form method="post" enctype="multipart/form-data">
+			 <input type="file" name="file" id="upload-image" class="form-control accept="image/*" multiple>
+             <button type="button" class="btn post-actionsupload attachments--btn">
+            <label for="upload-image" class="post-actionslabel">
+             <i class="fa fa-upload" aria-hidden="true"></i> 
+            Fotoğraf Yükle
+          </label>
+          </button>
+            <button type="submit" class="btn post-actions__upload attachments--btn">Yukle </button>
+			
+        </form>
+		
+      </div>
+    </div>
+	
+</div>
+
+
+
+</body>
+</html>
+
+
+
+
